@@ -1,71 +1,728 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi sitio web personal</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DALSS HUB | El Poder de la Hora</title>
+  <style>
+
+    :root{
+      --bg:#f4f7ff;
+      --card:rgba(255,255,255,.92);
+      --card-strong:#ffffff;
+      --text:#172033;
+      --muted:#64748b;
+      --primary:#3157e8;
+      --primary2:#6f8fff;
+      --dark:#14224c;
+      --border:rgba(148,163,184,.24);
+      --soft:#eef3ff;
+      --green:#12986b;
+      --green-soft:#e8f8f1;
+      --orange:#d97706;
+      --orange-soft:#fff4dc;
+      --purple:#7c3aed;
+      --purple-soft:#f2eaff;
+      --red:#dc2626;
+      --red-soft:#ffeded;
+      --shadow:0 22px 50px rgba(25,32,51,.08);
+      --shadow-soft:0 12px 28px rgba(30,41,59,.07);
+      --radius:28px;
+      --radius-md:22px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(111,143,255,.20), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(124,58,237,.14), transparent 24%),
+        radial-gradient(circle at 82% 82%, rgba(18,152,107,.12), transparent 20%),
+        linear-gradient(180deg, #f7f9ff 0%, #f2f6ff 100%);
+      min-height:100vh;
+      position:relative;
+    }
+    body::before,
+    body::after{
+      content:"";
+      position:fixed;
+      inset:auto;
+      width:320px;
+      height:320px;
+      border-radius:50%;
+      filter:blur(40px);
+      opacity:.42;
+      pointer-events:none;
+      z-index:0;
+    }
+    body::before{left:-90px;bottom:70px;background:rgba(49,87,232,.18)}
+    body::after{right:-120px;top:110px;background:rgba(124,58,237,.16)}
+    button,input,select,textarea{font-family:inherit}
+    .app{width:min(1200px,calc(100% - 28px));margin:22px auto 60px;position:relative;z-index:1}
+    .hero{
+      background:
+        linear-gradient(135deg, rgba(13,25,66,.96) 0%, rgba(42,76,208,.95) 48%, rgba(111,143,255,.92) 100%),
+        linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,0));
+      color:#fff;
+      border-radius:36px;
+      padding:36px;
+      box-shadow:0 26px 60px rgba(23,37,84,.22);
+      overflow:hidden;
+      position:relative;
+      border:1px solid rgba(255,255,255,.14);
+      isolation:isolate;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,.22), transparent 22%),
+        linear-gradient(115deg, transparent 0 58%, rgba(255,255,255,.10) 58% 62%, transparent 62% 100%);
+      opacity:.9;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      width:340px;
+      height:340px;
+      border-radius:50%;
+      background:rgba(255,255,255,.14);
+      right:-90px;
+      top:-120px;
+      filter:blur(6px);
+    }
+    .hero-grid{display:grid;grid-template-columns:1.35fr .85fr;gap:28px;position:relative;z-index:1}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      border:1px solid rgba(255,255,255,.24);
+      background:rgba(255,255,255,.14);
+      padding:8px 14px;border-radius:999px;font-size:13px;font-weight:900;
+      backdrop-filter:blur(10px);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.18);
+    }
+    h1{font-size:clamp(34px,6vw,60px);line-height:.96;letter-spacing:-.055em;margin:18px 0 12px}
+    .hero p{font-size:17px;line-height:1.68;color:rgba(255,255,255,.9);margin:0;max-width:760px}
+    .nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+    .btn{
+      border:0;border-radius:16px;padding:11px 15px;font-size:14px;font-weight:900;cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
+      transition:transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
+      box-shadow:var(--shadow-soft);
+    }
+    .btn:hover{transform:translateY(-2px);filter:saturate(1.02)}
+    .btn:active{transform:translateY(0)}
+    .btn-primary{background:#fff;color:#172554;box-shadow:0 14px 26px rgba(0,0,0,.16)}
+    .btn-ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.22);box-shadow:none}
+    .btn-blue{background:linear-gradient(135deg, var(--primary), #4770ff);color:#fff}
+    .btn-dark{background:linear-gradient(135deg, #0f172a, #1e293b);color:#fff}
+    .btn-soft{background:linear-gradient(180deg, #f6f8ff, #edf2ff);color:var(--primary);border:1px solid #dce5ff}
+    .btn-danger{background:linear-gradient(180deg, #fff1f1, #ffe7e7);color:var(--red);border:1px solid #ffd2d2}
+    .btn-small{padding:8px 11px;border-radius:13px;font-size:12px}
+    .hero-card{
+      border:1px solid rgba(255,255,255,.2);
+      background:rgba(255,255,255,.14);
+      border-radius:26px;padding:18px;backdrop-filter:blur(12px);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
+    }
+    .hero-card h3{margin:0 0 12px;font-size:16px;letter-spacing:-.02em}
+    .mini{
+      display:grid;grid-template-columns:auto 1fr;gap:4px 12px;
+      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;padding:13px;margin-top:10px
+    }
+    .mini strong{grid-row:span 2;font-size:25px}
+    .mini span{font-size:13px;color:rgba(255,255,255,.94)}
+    .mini small{font-size:12px;color:rgba(255,255,255,.74)}
+    .section{
+      background:var(--card);
+      border:1px solid rgba(255,255,255,.65);
+      backdrop-filter:blur(10px);
+      border-radius:var(--radius);
+      padding:24px;
+      margin-top:22px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .section::before{
+      content:"";
+      position:absolute;
+      inset:0 0 auto 0;
+      height:4px;
+      background:linear-gradient(90deg, var(--primary), var(--purple), #13b981);
+      opacity:.9;
+    }
+    .section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}
+    .section h2{font-size:26px;letter-spacing:-.04em;margin:0}
+    .sub{margin:6px 0 0;color:var(--muted);line-height:1.6}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .card{
+      border:1px solid rgba(148,163,184,.18);
+      background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,250,255,.96));
+      border-radius:20px;padding:18px;
+      box-shadow:0 10px 22px rgba(51,65,85,.05);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .card:hover,.team-card:hover,.phase-box:hover,.material:hover{transform:translateY(-3px);box-shadow:0 18px 30px rgba(30,41,59,.08)}
+    .card.soft{background:linear-gradient(180deg,#ffffff,#f8fbff)}
+    .label{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.10em;color:#73829a}
+    .value{font-size:29px;font-weight:950;letter-spacing:-.045em;margin-top:5px}
+    .hint{font-size:13px;color:var(--muted);line-height:1.5;margin-top:5px}
+    .team-card{
+      border-radius:24px;padding:20px;
+      border:1px solid rgba(148,163,184,.18);
+      background:linear-gradient(180deg,#ffffff,#f8fbff);
+      position:relative;overflow:hidden;
+    }
+    .team-card::after{
+      content:"";position:absolute;right:-40px;bottom:-40px;width:140px;height:140px;border-radius:50%;
+      background:radial-gradient(circle, rgba(111,143,255,.18), transparent 62%);
+    }
+    .team-card h3{margin:0 0 12px;font-size:20px;letter-spacing:-.02em}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{
+      display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);border-radius:999px;
+      padding:8px 11px;background:#fff;font-size:13px;font-weight:850;
+      box-shadow:0 8px 16px rgba(148,163,184,.08)
+    }
+    .chip.blue{background:var(--soft);border-color:#d8e2ff;color:#2442b6}
+    .chip.green{background:var(--green-soft);border-color:#cdebdc;color:#08734f}
+    .chip.purple{background:var(--purple-soft);border-color:#ded1ff;color:#5b21b6}
+    .chip.orange{background:var(--orange-soft);border-color:#fedfa8;color:#92400e}
+    .chip.red{background:var(--red-soft);border-color:#fecaca;color:#b91c1c}
+    .timeline{position:relative;margin-top:8px}
+    .timeline::before{
+      content:"";position:absolute;left:20px;top:12px;bottom:12px;width:3px;
+      background:linear-gradient(180deg, rgba(49,87,232,.28), rgba(124,58,237,.28), rgba(18,152,107,.28));
+      border-radius:999px
+    }
+    .phase{display:grid;grid-template-columns:54px 1fr;gap:14px;position:relative;margin-bottom:16px}
+    .dot{
+      width:42px;height:42px;border-radius:50%;
+      background:linear-gradient(135deg, var(--primary), var(--purple));color:#fff;
+      display:flex;align-items:center;justify-content:center;font-weight:950;
+      box-shadow:0 14px 26px rgba(49,87,232,.26);z-index:1;border:2px solid rgba(255,255,255,.8)
+    }
+    .phase-box{
+      border:1px solid rgba(148,163,184,.18);border-radius:22px;background:#fff;padding:18px;
+      box-shadow:0 10px 22px rgba(51,65,85,.05);transition:transform .18s ease, box-shadow .18s ease
+    }
+    .phase-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+    .phase h3{margin:0;font-size:19px;letter-spacing:-.02em}
+    .date-badge{
+      background:linear-gradient(180deg, #eef3ff, #e8f0ff);color:#2442b6;border:1px solid #d8e2ff;
+      border-radius:999px;padding:8px 11px;font-size:12px;font-weight:950;
+      box-shadow:0 8px 16px rgba(49,87,232,.08)
+    }
+    .phase p{color:var(--muted);line-height:1.56;margin:9px 0 0}
+    .need-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+    .need{
+      border:1px solid rgba(148,163,184,.16);border-radius:18px;background:#fbfcff;padding:13px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.7)
+    }
+    .need strong{display:block;font-size:14px;margin-bottom:5px}
+    .need span{font-size:12px;color:var(--muted);line-height:1.38}
+    .need.blue{background:linear-gradient(180deg,#f6f9ff,#edf3ff);border-color:#d8e2ff}
+    .need.purple{background:linear-gradient(180deg,#f8f3ff,#f1e9ff);border-color:#ded1ff}
+    .need.orange{background:linear-gradient(180deg,#fff9eb,#fff2d6);border-color:#fedfa8}
+    form{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-size:12px;font-weight:950;color:#344054;letter-spacing:.01em}
+    .field input,.field select,.field textarea{
+      border:1px solid rgba(148,163,184,.22);
+      background:linear-gradient(180deg, #ffffff, #fbfcff);
+      border-radius:15px;padding:12px 13px;outline:none;font-size:14px;color:var(--text);
+      transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+    .field textarea{resize:vertical;min-height:92px}
+    .field input:focus,.field select:focus,.field textarea:focus{
+      border-color:#9db5ff;box-shadow:0 0 0 4px rgba(49,87,232,.12);transform:translateY(-1px)
+    }
+    .span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-6{grid-column:span 6}.span-4{grid-column:span 4}.span-3{grid-column:span 3}.span-2{grid-column:span 2}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .note{
+      padding:14px 15px;border-radius:18px;
+      background:linear-gradient(180deg, #f8fbff, #f0f6ff);
+      border:1px dashed #bfd0ff;color:#42526e;font-size:13px;line-height:1.58
+    }
+    .filters{display:grid;grid-template-columns:1.3fr repeat(3,.7fr);gap:10px;margin-bottom:14px}
+    .filters input,.filters select{
+      border:1px solid rgba(148,163,184,.22);border-radius:15px;padding:11px 12px;outline:none;
+      background:linear-gradient(180deg, #ffffff, #fbfcff);box-shadow:0 6px 14px rgba(148,163,184,.06)
+    }
+    .materials{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .material{
+      border:1px solid rgba(148,163,184,.18);border-radius:22px;background:linear-gradient(180deg, #ffffff, #fbfcff);
+      padding:17px;position:relative;overflow:hidden;
+      box-shadow:0 10px 24px rgba(51,65,85,.05);transition:transform .18s ease, box-shadow .18s ease
+    }
+    .material::before{
+      content:"";position:absolute;inset:0 auto 0 0;width:5px;border-radius:22px 0 0 22px;
+      background:linear-gradient(180deg, var(--primary), var(--purple), #13b981)
+    }
+    .material-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .material h3{margin:0;font-size:17px;letter-spacing:-.02em}
+    .material p{color:var(--muted);font-size:13px;line-height:1.54;margin:9px 0}
+    .meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+    .empty{
+      border:1px dashed #cbd5e1;background:linear-gradient(180deg,#fbfdff,#f8fbff);
+      border-radius:20px;padding:28px;text-align:center;color:var(--muted);grid-column:1/-1
+    }
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap}
+    .footer{color:#75839a;font-size:12px;text-align:center;margin-top:20px;line-height:1.5}
+    .pill-count{background:var(--soft);color:var(--primary);border-radius:999px;padding:7px 10px;font-size:12px;font-weight:950}
+    .danger-text{color:var(--red)}
+    .file-hint{font-size:12px;color:var(--muted);line-height:1.45}
+    .attachment-box{
+      margin-top:12px;border:1px dashed #bfd0ff;background:linear-gradient(180deg,#f9fbff,#f2f7ff);
+      border-radius:18px;padding:13px
+    }
+    .attachment-name{font-size:13px;font-weight:900;color:#344054}
+    .attachment-meta{font-size:12px;color:var(--muted);margin-top:3px}
+    .preview-img{
+      width:100%;max-height:230px;object-fit:cover;border-radius:15px;border:1px solid var(--border);
+      margin-top:10px;background:#f8fafc;box-shadow:0 10px 18px rgba(148,163,184,.08)
+    }
+    .file-row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .file-icon{
+      width:40px;height:40px;border-radius:14px;
+      background:linear-gradient(135deg, #eef3ff, #e4edff);color:#2442b6;
+      display:flex;align-items:center;justify-content:center;font-weight:950;flex:none;
+      box-shadow:0 8px 16px rgba(49,87,232,.08)
+    }
+    @media(max-width:900px){
+      .hero-grid,.grid-2,.grid-3,.grid-4,.materials,.need-grid{grid-template-columns:1fr}
+      .filters{grid-template-columns:1fr}
+      .span-8,.span-6,.span-4,.span-3,.span-2{grid-column:span 12}
+      .section-head{flex-direction:column}
+      .hero{padding:24px}
+      .team-card{padding:16px}
+    }
+    @media print{
+      .nav,.toolbar,#add-material,.btn,.filters{display:none!important}
+      .app{width:100%;margin:0}
+      .section,.hero{box-shadow:none;border:1px solid #ddd;background:#fff}
+      .hero{color:#111}
+      body{background:#fff}
+      body::before,body::after,.section::before,.material::before{display:none}
+    }
+  </style>
 </head>
 <body>
-    <table cellspacing="20">
-        <tr>
-            <td><img src="Paisaje.jpg" alt="Foto" ></td>
-            <td>
-                <h1>Alvaro Edgar</h1>
-                <p>Estudiante de mecatronica</p>
-                <p>Ingeniero mecatronico</p>
-                <p>Me encanta el deporte</p>
-                <p>Me gusta el cafe</p>
-            </td>
-        </tr>
-    </table>
+  <main class="app">
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">⏰ DALSS HUB · Proyecto escolar</span>
+          <h1>El Poder de la Hora</h1>
+          <p>Panel interactivo para organizar los materiales de ejecución del proyecto con una vista clara, ordenada y visualmente atractiva: cronograma, distribución del equipo y almacén único para diapositivas, guiones y materiales para imprimir.</p>
+          <nav class="nav">
+            <a class="btn btn-primary" href="#cronograma">Ver cronograma</a>
+            <a class="btn btn-ghost" href="#add-material">Añadir material</a>
+            <a class="btn btn-ghost" href="#materials">Materiales registrados</a>
+          </nav>
+        </div>
+        <aside class="hero-card">
+          <h3>Resumen operativo</h3>
+          <div class="mini"><strong>3</strong><span>Actividades principales</span><small>22 junio · 1 julio · 5 agosto</small></div>
+          <div class="mini"><strong>5</strong><span>Integrantes DALSS</span><small>Distribuidos entre 7mo y 8vo grado</small></div>
+          <div class="mini"><strong>3</strong><span>Tipos de materiales</span><small>Diapositiva · guiones · imprimibles</small></div>
+        </aside>
+      </div>
+    </header>
 
-    <hr sise = "3">
-    <h3>Experiencia laboral</h3>
+    <section id="contexto" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Contexto breve del proyecto</h2>
+          <p class="sub">DALSS busca reducir la procrastinación escolar mediante actividades prácticas, gamificadas y fáciles de aplicar en el aula.</p>
+        </div>
+        <span class="pill-count">Proyecto: Escuela de Líderes · Junio 2026</span>
+      </div>
+      <div class="grid-4">
+        <article class="card soft"><div class="label">Equipo</div><div class="value">DALSS</div><div class="hint">Sofía, Deysi, Lucía, Santiago y Amaral.</div></article>
+        <article class="card soft"><div class="label">Público objetivo</div><div class="value">7mo y 8vo</div><div class="hint">Estudiantes de Innova Schools.</div></article>
+        <article class="card soft"><div class="label">Problema central</div><div class="value">72 h</div><div class="hint">Postergación promedio detectada para iniciar o entregar tareas.</div></article>
+        <article class="card soft"><div class="label">Enfoque</div><div class="value">Acción</div><div class="hint">No solo charla: sistema de autogestión tangible.</div></article>
+      </div>
+    </section>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Fecha</th>
-                <th>Trabajo</th>
-            </tr>
-        </thead>
-        <tr>
-            <td>2017-Actualidad  </td>
-            <td>Desarrollo web en la app JF</td>
-        </tr>
-        <tr>
-            <td>2014-2017  </td>
-            <td>Desarrollo Web en la aplicacion JF</td>
-        </tr>
-    </table>
+    <section id="equipo" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Distribución del equipo</h2>
+          <p class="sub">Distribución corregida para ejecutar las actividades simultáneamente por grado.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <article class="team-card">
+          <h3>8vo grado</h3>
+          <div class="chips">
+            <span class="chip blue">👤 Sofía Figueroa</span>
+            <span class="chip blue">👤 Deysi Reyes</span>
+            <span class="chip blue">👤 Lucía Zuñiga</span>
+          </div>
+          <p class="hint">Equipo de 3 integrantes para explicar la dinámica, guiar las mesas y registrar observaciones en 8vo.</p>
+        </article>
+        <article class="team-card">
+          <h3>7mo grado</h3>
+          <div class="chips">
+            <span class="chip green">👤 Santiago Mejía</span>
+            <span class="chip green">👤 Amaral Huamán</span>
+          </div>
+          <p class="hint">Equipo de 2 integrantes para adaptar las líneas del guion, resolver dudas y reforzar instrucciones en 7mo.</p>
+        </article>
+      </div>
+    </section>
 
-  
-    <h3>Habilidades</h3>
-    <br>
+    <section id="cronograma" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Cronograma interactivo</h2>
+          <p class="sub">Cada fase muestra únicamente lo que necesitan preparar: 1 diapositiva, 2 guiones y materiales para imprimir.</p>
+        </div>
+      </div>
+      <div class="timeline">
+        <article class="phase">
+          <div class="dot">1</div>
+          <div class="phase-box">
+            <div class="phase-top"><h3>Fase 1 · Desafío de Productividad Grupal</h3><span class="date-badge">Inicio: 22 de junio</span></div>
+            <p>Actividad grupal por mesas para registrar tareas entregadas a tiempo y reforzar la productividad con competencia sana.</p>
+            <div class="need-grid">
+              <div class="need blue"><strong>1 diapositiva</strong><span>Una lámina clara para explicar la actividad de la fase.</span></div>
+              <div class="need purple"><strong>2 guiones</strong><span>Guion para 8vo y guion para 7mo, porque las líneas del equipo cambian.</span></div>
+              <div class="need orange"><strong>Materiales para imprimir</strong><span>Ficha o recurso físico necesario para ejecutar la actividad.</span></div>
+            </div>
+            <div style="margin-top:12px"><button class="btn btn-soft btn-small" onclick="prefillPhase('Fase 1')">+ Añadir material de Fase 1</button></div>
+          </div>
+        </article>
+        <article class="phase">
+          <div class="dot">2</div>
+          <div class="phase-box">
+            <div class="phase-top"><h3>Fase 2 · La Isla de la Procrastinación</h3><span class="date-badge">Inicio: 1 de julio</span></div>
+            <p>Dinámica grupal para identificar distractores, reconocer debilidades y construir una ruta de escape con acciones concretas.</p>
+            <div class="need-grid">
+              <div class="need blue"><strong>1 diapositiva</strong><span>Una lámina clara para presentar la dinámica de la isla.</span></div>
+              <div class="need purple"><strong>2 guiones</strong><span>Guion para 8vo y guion para 7mo, con distribución distinta de líneas.</span></div>
+              <div class="need orange"><strong>Materiales para imprimir</strong><span>Plantilla, instrucciones o recurso físico necesario para la dinámica.</span></div>
+            </div>
+            <div style="margin-top:12px"><button class="btn btn-soft btn-small" onclick="prefillPhase('Fase 2')">+ Añadir material de Fase 2</button></div>
+          </div>
+        </article>
+        <article class="phase">
+          <div class="dot">3</div>
+          <div class="phase-box">
+            <div class="phase-top"><h3>Fase 3 · Plan Maestro de Rutina</h3><span class="date-badge">Inicio: 5 de agosto</span></div>
+            <p>Actividad individual para que cada estudiante organice su tarde en bloques, acciones de bloqueo y descanso recobrado.</p>
+            <div class="need-grid">
+              <div class="need blue"><strong>1 diapositiva</strong><span>Una lámina clara para explicar el plan de rutina.</span></div>
+              <div class="need purple"><strong>2 guiones</strong><span>Guion para 8vo y guion para 7mo, ajustados a cada grupo.</span></div>
+              <div class="need orange"><strong>Materiales para imprimir</strong><span>Ficha o recurso físico necesario para que el estudiante trabaje.</span></div>
+            </div>
+            <div style="margin-top:12px"><button class="btn btn-soft btn-small" onclick="prefillPhase('Fase 3')">+ Añadir material de Fase 3</button></div>
+          </div>
+        </article>
+      </div>
+    </section>
 
-    <table>
-        <tr>
-            <td>Desarrollo Web</td>
-            <td>Intermedio</td>
-        </tr>
-        <tr>
-            <td>Desarrollador C#</td>
-            <td>Avanzado</td>
-        </tr>
-        <tr>
-            <td>Desarrollador Android</td>
-            <td>Intermedio</td>
-        </tr>
-    </table>
+    <section id="add-material" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Añadir material</h2>
+          <p class="sub">Registra un recurso usando enlace, archivo adjunto o ambas opciones. El archivo puede ser imagen, foto, PDF, Word, PowerPoint u otro documento.</p>
+        </div>
+      </div>
+      <div class="note">El panel guarda los registros en este navegador. Si adjuntas archivos, también se guardan dentro del respaldo JSON; para archivos muy pesados conviene subirlos a Drive/Canva y pegar el enlace.</div>
+      <br>
+      <form id="materialForm">
+        <input type="hidden" id="editId" />
+        <input type="hidden" id="removeAttachment" value="0" />
+        <div class="field span-6"><label for="title">Nombre del material</label><input id="title" required placeholder="Ej. Guion Fase 1 para 8vo" /></div>
+        <div class="field span-3"><label for="phase">Fase</label><select id="phase" required><option>Fase 1</option><option>Fase 2</option><option>Fase 3</option><option>General</option></select></div>
+        <div class="field span-3"><label for="type">Tipo</label><select id="type" required><option>Diapositiva</option><option>Guion</option><option>Material para imprimir</option></select></div>
+        <div class="field span-3"><label for="responsible">Responsable</label><select id="responsible" required><option>Sofía</option><option>Deysi</option><option>Lucía</option><option>Santiago</option><option>Amaral</option><option>Todo el equipo</option></select></div>
+        <div class="field span-3"><label for="status">Estado</label><select id="status" required><option>Pendiente</option><option>En proceso</option><option>En revisión</option><option>Final</option></select></div>
+        <div class="field span-3"><label for="dueDate">Fecha objetivo</label><input id="dueDate" type="date" /></div>
+        <div class="field span-3"><label for="link">Enlace opcional</label><input id="link" type="url" placeholder="https://..." /></div>
+        <div class="field span-12">
+          <label for="attachment">Adjuntar imagen, foto o archivo</label>
+          <input id="attachment" type="file" accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.zip" />
+          <div class="file-hint">Puedes adjuntar un archivo local. Para compartirlo con todos, exporta el respaldo JSON o usa también un enlace de Drive/Canva.</div>
+          <div id="attachmentInfo" class="attachment-box" style="display:none"></div>
+        </div>
+        <div class="field span-12"><label for="description">Descripción / uso del material</label><textarea id="description" rows="3" placeholder="Explica para qué sirve, cuándo se usa y cualquier indicación importante."></textarea></div>
+        <div class="span-12 actions">
+          <button class="btn btn-blue" type="submit">Guardar material</button>
+          <button class="btn btn-soft" type="button" onclick="resetForm()">Limpiar formulario</button>
+        </div>
+      </form>
+    </section>
 
-    <hr size = "3">
+    <section id="materials" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Materiales añadidos</h2>
+          <p class="sub">Todos los recursos registrados aparecen aquí con descripción, responsable, estado, enlace y archivo adjunto cuando exista.</p>
+        </div>
+        <div class="toolbar">
+          <button class="btn btn-soft btn-small" onclick="exportData()">Exportar respaldo</button>
+          <label class="btn btn-soft btn-small" for="importFile">Importar respaldo</label>
+          <input id="importFile" type="file" accept="application/json" style="display:none" />
+          <button class="btn btn-danger btn-small" onclick="clearAll()">Borrar todo</button>
+        </div>
+      </div>
+      <div class="filters">
+        <input id="search" placeholder="Buscar por nombre, descripción o responsable..." />
+        <select id="filterPhase"><option value="">Todas las fases</option><option>Fase 1</option><option>Fase 2</option><option>Fase 3</option><option>General</option></select>
+        <select id="filterType"><option value="">Todos los tipos</option><option>Diapositiva</option><option>Guion</option><option>Material para imprimir</option></select>
+        <select id="filterStatus"><option value="">Todos los estados</option><option>Pendiente</option><option>En proceso</option><option>En revisión</option><option>Final</option></select>
+      </div>
+      <div id="summary" class="grid-4" style="margin-bottom:14px"></div>
+      <div id="materialList" class="materials"></div>
+    </section>
 
-    <a href="pasatiempos.html">Pasatiempos</a>
-    <a href="contacto.html">Contacto</a>
+    <p class="footer">DALSS HUB · El Poder de la Hora · Panel local para organización de materiales de ejecución.</p>
+  </main>
 
- 
+  <script>
+    const KEY = 'dalss_hub_materiales_v3';
+    let materials = JSON.parse(localStorage.getItem(KEY) || '[]');
+    let currentAttachment = null;
 
+    const $ = (id) => document.getElementById(id);
+    const form = $('materialForm');
+    const fields = ['editId','title','phase','type','responsible','status','dueDate','link','description'];
 
+    function save(){ localStorage.setItem(KEY, JSON.stringify(materials)); }
+    function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+    function escapeHtml(str=''){
+      return String(str).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    }
+    function formatBytes(bytes){
+      if(!bytes && bytes !== 0) return '';
+      const units = ['B','KB','MB','GB'];
+      let size = bytes, i = 0;
+      while(size >= 1024 && i < units.length - 1){ size /= 1024; i++; }
+      return `${size.toFixed(size >= 10 || i === 0 ? 0 : 1)} ${units[i]}`;
+    }
+    function badgeClass(value){
+      if(value === 'Final') return 'green';
+      if(value === 'En revisión') return 'purple';
+      if(value === 'En proceso') return 'orange';
+      if(value === 'Pendiente') return 'red';
+      if(value === 'Fase 1') return 'blue';
+      if(value === 'Fase 2') return 'purple';
+      if(value === 'Fase 3') return 'green';
+      if(value === 'Diapositiva') return 'blue';
+      if(value === 'Guion') return 'purple';
+      if(value === 'Material para imprimir') return 'orange';
+      return '';
+    }
+    function readFileAsDataURL(file){
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve({
+          name:file.name,
+          type:file.type || 'application/octet-stream',
+          size:file.size,
+          dataUrl:reader.result,
+          attachedAt:new Date().toISOString()
+        });
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+    function renderAttachmentInfo(file){
+      const box = $('attachmentInfo');
+      if(!file){ box.style.display = 'none'; box.innerHTML = ''; return; }
+      box.style.display = 'block';
+      const img = file.type && file.type.startsWith('image/') ? `<img class="preview-img" src="${file.dataUrl}" alt="Vista previa de ${escapeHtml(file.name)}">` : '';
+      box.innerHTML = `
+        <div class="file-row">
+          <div style="display:flex;gap:10px;align-items:center">
+            <div class="file-icon">📎</div>
+            <div>
+              <div class="attachment-name">${escapeHtml(file.name)}</div>
+              <div class="attachment-meta">${escapeHtml(file.type || 'archivo')} · ${formatBytes(file.size)}</div>
+            </div>
+          </div>
+          <button class="btn btn-danger btn-small" type="button" onclick="removeSelectedAttachment()">Quitar adjunto</button>
+        </div>
+        ${img}
+      `;
+    }
+    function removeSelectedAttachment(){
+      currentAttachment = null;
+      $('attachment').value = '';
+      $('removeAttachment').value = '1';
+      renderAttachmentInfo(null);
+    }
+    $('attachment').addEventListener('change', async (e)=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      if(file.size > 8 * 1024 * 1024){
+        alert('El archivo es pesado. Para evitar errores, súbelo a Drive/Canva y pega el enlace. Este panel permite mejor adjuntos pequeños.');
+        e.target.value = '';
+        return;
+      }
+      currentAttachment = await readFileAsDataURL(file);
+      $('removeAttachment').value = '0';
+      renderAttachmentInfo(currentAttachment);
+    });
+    function normalizeImportedMaterial(m){
+      let type = m.type || 'Guion';
+      if(type === 'Diapositivas') type = 'Diapositiva';
+      if(type === 'Recurso para imprimir') type = 'Material para imprimir';
+      return {id:m.id || uid(), ...m, type};
+    }
+    function getFiltered(){
+      const q = $('search').value.toLowerCase().trim();
+      const phase = $('filterPhase').value;
+      const type = $('filterType').value;
+      const status = $('filterStatus').value;
+      return materials.filter(m => {
+        const hay = [m.title,m.phase,m.type,m.responsible,m.status,m.description,m.attachedFile?.name].join(' ').toLowerCase();
+        return (!q || hay.includes(q)) && (!phase || m.phase === phase) && (!type || m.type === type) && (!status || m.status === status);
+      });
+    }
+    function renderSummary(items){
+      const total = materials.length;
+      const slides = materials.filter(m=>m.type==='Diapositiva').length;
+      const scripts = materials.filter(m=>m.type==='Guion').length;
+      const print = materials.filter(m=>m.type==='Material para imprimir').length;
+      $('summary').innerHTML = `
+        <article class="card soft"><div class="label">Total</div><div class="value">${total}</div><div class="hint">materiales registrados</div></article>
+        <article class="card soft"><div class="label">Diapositivas</div><div class="value">${slides}</div><div class="hint">1 esperada por fase</div></article>
+        <article class="card soft"><div class="label">Guiones</div><div class="value">${scripts}</div><div class="hint">2 esperados por fase</div></article>
+        <article class="card soft"><div class="label">Imprimibles</div><div class="value">${print}</div><div class="hint">materiales físicos</div></article>
+      `;
+    }
+    function attachmentHtml(file){
+      if(!file) return `<span class="hint">Sin archivo adjunto</span>`;
+      const preview = file.type && file.type.startsWith('image/') ? `<img class="preview-img" src="${file.dataUrl}" alt="Vista previa de ${escapeHtml(file.name)}">` : '';
+      return `
+        <div class="attachment-box">
+          <div class="file-row">
+            <div style="display:flex;gap:10px;align-items:center">
+              <div class="file-icon">📎</div>
+              <div>
+                <div class="attachment-name">${escapeHtml(file.name)}</div>
+                <div class="attachment-meta">${escapeHtml(file.type || 'archivo')} · ${formatBytes(file.size)}</div>
+              </div>
+            </div>
+            <a class="btn btn-soft btn-small" href="${file.dataUrl}" download="${escapeHtml(file.name)}">Descargar adjunto</a>
+          </div>
+          ${preview}
+        </div>
+      `;
+    }
+    function render(){
+      const items = getFiltered();
+      renderSummary(items);
+      const box = $('materialList');
+      if(!items.length){
+        box.innerHTML = `<div class="empty"><strong>No hay materiales con estos filtros.</strong><br>Agrega un recurso desde la sección “Añadir material”.</div>`;
+        return;
+      }
+      box.innerHTML = items.map(m => `
+        <article class="material">
+          <div class="material-head">
+            <div>
+              <h3>${escapeHtml(m.title)}</h3>
+              <div class="meta">
+                <span class="chip ${badgeClass(m.phase)}">${escapeHtml(m.phase)}</span>
+                <span class="chip ${badgeClass(m.type)}">${escapeHtml(m.type)}</span>
+                <span class="chip ${badgeClass(m.status)}">${escapeHtml(m.status)}</span>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn btn-soft btn-small" onclick="editMaterial('${m.id}')">Editar</button>
+              <button class="btn btn-danger btn-small" onclick="deleteMaterial('${m.id}')">Eliminar</button>
+            </div>
+          </div>
+          <p>${escapeHtml(m.description || 'Sin descripción registrada.')}</p>
+          <div class="meta">
+            <span class="chip">Responsable: ${escapeHtml(m.responsible)}</span>
+            ${m.dueDate ? `<span class="chip">Fecha objetivo: ${escapeHtml(m.dueDate)}</span>` : ''}
+          </div>
+          <div style="margin-top:12px" class="actions">
+            ${m.link ? `<a class="btn btn-blue btn-small" href="${escapeHtml(m.link)}" target="_blank" rel="noopener">Abrir enlace</a>` : `<span class="hint">Sin enlace agregado</span>`}
+          </div>
+          ${attachmentHtml(m.attachedFile)}
+        </article>
+      `).join('');
+    }
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(fields.map(id => [id, $(id).value.trim()]));
+      const previous = data.editId ? materials.find(m => m.id === data.editId) : null;
+      let attachedFile = currentAttachment;
+      if(!attachedFile && previous && $('removeAttachment').value !== '1') attachedFile = previous.attachedFile || null;
+      if(data.editId){
+        materials = materials.map(m => m.id === data.editId ? {...m, ...data, id:data.editId, attachedFile, updatedAt:new Date().toISOString()} : m);
+      } else {
+        materials.unshift({id:uid(), ...data, attachedFile, createdAt:new Date().toISOString()});
+      }
+      save(); resetForm(); render(); location.hash = '#materials';
+    });
+    function resetForm(){
+      form.reset();
+      $('editId').value = '';
+      $('removeAttachment').value = '0';
+      currentAttachment = null;
+      renderAttachmentInfo(null);
+      form.querySelector('button[type="submit"]').textContent = 'Guardar material';
+    }
+    function prefillPhase(phase){ $('phase').value = phase; location.hash = '#add-material'; $('title').focus(); }
+    function editMaterial(id){
+      const m = materials.find(x=>x.id===id); if(!m) return;
+      fields.forEach(f => { if($(f)) $(f).value = m[f] || ''; });
+      $('editId').value = id;
+      $('attachment').value = '';
+      $('removeAttachment').value = '0';
+      currentAttachment = m.attachedFile || null;
+      renderAttachmentInfo(currentAttachment);
+      form.querySelector('button[type="submit"]').textContent = 'Actualizar material';
+      location.hash = '#add-material';
+    }
+    function deleteMaterial(id){
+      const m = materials.find(x=>x.id===id); if(!m) return;
+      if(confirm(`¿Eliminar el material "${m.title}"?`)){
+        materials = materials.filter(x=>x.id!==id); save(); render();
+      }
+    }
+    function clearAll(){
+      if(!materials.length) return alert('No hay materiales registrados.');
+      if(confirm('¿Seguro que deseas borrar todos los materiales registrados en este navegador?')){
+        materials = []; save(); render();
+      }
+    }
+    function exportData(){
+      const payload = {project:'DALSS HUB - El Poder de la Hora', version:'v4', exportedAt:new Date().toISOString(), materials};
+      const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'respaldo_dalss_hub_materiales_v4.json'; a.click(); URL.revokeObjectURL(url);
+    }
+    $('importFile').addEventListener('change', async (e)=>{
+      const file = e.target.files[0]; if(!file) return;
+      try{
+        const raw = await file.text();
+        const data = JSON.parse(raw);
+        const incoming = Array.isArray(data) ? data : data.materials;
+        if(!Array.isArray(incoming)) throw new Error('Formato no válido');
+        materials = incoming.map(normalizeImportedMaterial);
+        save(); render(); alert('Respaldo importado correctamente.');
+      }catch(err){ alert('No se pudo importar el archivo. Revisa que sea un respaldo JSON válido.'); }
+      e.target.value = '';
+    });
+    ['search','filterPhase','filterType','filterStatus'].forEach(id => $(id).addEventListener('input', render));
+    render();
+  </script>
 </body>
 </html>
